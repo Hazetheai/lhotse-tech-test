@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Take-home test Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This is a takehome test for candidates applying for a frontend engineer position at Lhotse.
 
-In the project directory, you can run:
+Our tech stack is:
 
-### `npm start`
+- React (CRA)
+- Typescript
+- TailwindCSS
+- React query + axios
+- Cypress (for e2e including unit testing)
+  ]## Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+At Lhotse we have to find the most efficient and simple ways for the users to interact with their supplier databases. One of the features created for this purpose is the **tag** based clasification.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![example](assets/supplier-details.png)
 
-### `npm test`
+### What do you need to do:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Create a React app that displays the follow supplier data in the same way as is shown in the image above:
 
-### `npm run build`
+```javascript
+const supplier = {
+    'name': 'Volkswagenzentrum Berlin GmbH'
+    'tags-general': [{
+        'id': 1,
+        'name': 'volkswagen',
+        'type': 'supplierBranch-general'
+    },
+    {
+        'id': 2,
+        'name': 'cars',
+        'type': 'supplierBranch-general'
+    }],
+    'tags-certificates': [{
+        'id': 1,
+        'name': 'ISO 9001',
+        'type': 'supplierBranch-certificates'
+    }],
+    'tags-portfolio': [],
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. When _hovering_ over a tag, the cross to delete icon should appear. And when clicking on it, it should remove the tag. **Except** it is the **first** tag
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. When clicking on "+ New Tag" an input should appear:
 
-### `npm run eject`
+- If it's a _general_ tag, it should be a free text input.
+- If not, when typing it should suggest a name and allow only to choose one of the suggestions.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```javascript
+const suggestedTagsPortfolio = ["European", "Eco-friendly", "German"];
+const suggestedTagsCertifications = ["ISO 9001", "Vegan", "Organic"];
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. When pressing _enter_, it should add the tag to the corresponding array.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+5. If the user instead presses _tab_, it should add the tag **and** open a new input to add another tag.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Notes
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to add any extra tools or libraries you see fit.
