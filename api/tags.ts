@@ -1,8 +1,8 @@
 export default function handler(request, response) {
   const body =
-    request.query === "portfolio"
+    request.query.type === "portfolio"
       ? ["European", "Eco-friendly", "German"]
-      : request.query === "certifications"
+      : request.query.type === "certifications"
       ? ["ISO 9001", "Vegan", "Organic"]
       : ["Please choose either 'portfolio' or 'certifications'"];
 
