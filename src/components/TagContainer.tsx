@@ -8,8 +8,8 @@ const TagContainer: FC = () => {
     async () => {
       const _res = await fetch(
         process.env.NODE_ENV === "development"
-          ? "http://localhost:3000/api/supplier"
-          : `${process.env.VERCEL_URL}/api/supplier`
+          ? `http://localhost:3000/api/supplier`
+          : `/api/supplier`
       );
       const res = await _res.json();
 
