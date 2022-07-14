@@ -1,5 +1,5 @@
-import { FC, KeyboardEvent, useState } from "react";
 import { Combobox } from "@headlessui/react";
+import { FC, KeyboardEvent, useState } from "react";
 import { TagType } from "../types";
 
 function classNames(...classes: string[]) {
@@ -17,18 +17,19 @@ interface Props {
 }
 
 const TagListBox: FC<Props> = ({ tags, tagType, handleKeyDown }) => {
-  const [selectedPerson, setSelectedPerson] = useState("");
+  const [activeTag, setActiveTag] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
   const [query, setQuery] = useState("");
 
   const filteredOptions =
     query === ""
       ? tags
-      : tags.filter((person) => {
-          return person.toLowerCase().includes(query.toLowerCase());
+      : tags.filter((tag) => {
+          return tag.toLowerCase().includes(query.toLowerCase());
         });
 
   return (
-    <Combobox value={selectedPerson} onChange={setSelectedPerson}>
+    <Combobox value={selectedTag} onChange={setSelectedTag}>
       <Combobox.Input
         data-cy="restricted-input"
         autoFocus
@@ -36,6 +37,9 @@ const TagListBox: FC<Props> = ({ tags, tagType, handleKeyDown }) => {
         className={"outline-none"}
         onChange={(event) => setQuery(event.target.value)}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (e.code === "Tab" && !!activeTag) {
+            handleKeyDown(e, tagType, activeTag);
+          }
           if (
             tags.find(
               (tag) => tag.toLowerCase() === e.currentTarget.value.toLowerCase()
@@ -61,23 +65,23 @@ const TagListBox: FC<Props> = ({ tags, tagType, handleKeyDown }) => {
             key={tag}
             value={tag}
           >
-            {({ active, selected }) => (
-              <div
-                className={`${
-                  active ? "bg-blue-500 text-white" : "bg-white text-black"
-                }`}
-                data-cy="restricted-input-option"
-                onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-                  if (active) {
-                    e.preventDefault();
-                    // @ts-ignore
-                    handleKeyDown(e, tagType, tag);
-                  }
-                }}
-              >
-                {tag}
-              </div>
-            )}
+            {({ active, selected }) => {
+              // Causing a bad setState Call.
+              // I would like to discuss the effects of this as I don't fully understand the reasoning and implications
+              if (active && activeTag !== tag) {
+                setActiveTag(tag);
+              }
+              return (
+                <div
+                  className={`${
+                    active ? "bg-blue-500 text-white" : "bg-white text-black"
+                  }`}
+                  data-cy="restricted-input-option"
+                >
+                  {tag}
+                </div>
+              );
+            }}
           </Combobox.Option>
         ))}
       </Combobox.Options>
